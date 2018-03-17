@@ -157,9 +157,9 @@ Par ailleurs, si deux triangles ne respectent pas la condition de Delaunay, remp
 Pour introduire le sujet du maillage, nous avons commencé par l’exemple de domaine le plus trivial possible : le carré unitaire. 
 \newline
 Il a s’agit ici d’écrire un programme en Python qui permet de mailler un carré unitaire en sous-carrés répartis de manière égale puis de subdiviser chaque sous-carré en triangles.
-De plus, nous devions faire en sorte de pouvoir choisir en combien de points nous allions diviser les côtés du carré (N et M). Enfin, le programme devait contenir des tableaux contentant une numérotation des coordonnées de chaque point ainsi qu’une numérotation de chaque triangle, suivi des sommets qui le constitue (connectivité). Ces numérotations devaient respecter la même règle : chaque triangle devait voir la numérotation de ses sommets croitre en parcourant les points dans le même sens.
+De plus, nous devions faire en sorte de pouvoir choisir en combien de sous-carrés nous allions diviser le carré unitaire ((N-1)*(M-1) sous-carré dans notre code, où N et M sont des entiers strctement plus grands que 1). Enfin, le programme génère des tableaux contentant une numérotation des coordonnées de chaque point ainsi qu’une numérotation de chaque triangle, suivi des sommets qui le constitue (connectivité). Ces numérotations respectent la même règle : chaque triangle devait voir la numérotation de ses sommets croitre en parcourant les points dans le même sens.
 \newline
-Nous avons donc respecté ses contraintes en séparant les cas des triangles supérieurs et inférieurs qui chacun respectait son sens de « parcours ».   
+Nous avons donc respecté ces contraintes en séparant les cas des triangles supérieurs et inférieurs qui chacun respectait son sens de « parcours ».   
 
 
 \begin{figure}[h]	
