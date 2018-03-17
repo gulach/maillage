@@ -177,9 +177,9 @@ Nous avons donc respecté ces contraintes en séparant les cas des triangles sup
 \subsection{ Maillage d’un nuage de points }
 \subsubsection{Avancement }
 
-Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons donc dû basculer sur la méthode de triangulation de Delaunay. Pour l’instant, nous avons réussi a générer un carré qui englobe tous les points du nuage de points que l’on génère de manière aléatoire sur le plan. Ceci nous permettra ainsi de tester notre programme de triangulation.
+Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons d'abord écrit un code permettant de générer aléatoirement des points dans un carré prédéfini à l'avance (le code prend en argument deux réels qui permetront de créer ce carré). 
 \newline
-En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répértoriés dans un tableurs afin d'avoir un tableau des connectivités.
+En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répértorier dans un tableur afin d'avoir un tableau des connectivités.
 
 
 
