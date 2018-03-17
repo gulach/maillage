@@ -177,9 +177,9 @@ Nous avons donc respecté ces contraintes en séparant les cas des triangles sup
 \subsection{ Maillage d’un nuage de points }
 \subsubsection{Avancement }
 
-Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons d'abord écrit un code permettant de générer aléatoirement des points dans un carré prédéfini à l'avance (le code prend en argument deux réels qui permetront de créer ce carré). 
+Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons d'abord écrit un code permettant de générer aléatoirement des points dans un carré prédéfini à l'avance. La fonction nuage de points prend en argument deux réels (les bornes du carré où sont générés les points), un entier strictement positif (le nombre de points) et un réel (la distance minimale entre chaque paire de points) et renvoie donc un ensemble de points contenus dans un certain carré. 
 \newline
-En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répertorier dans un tableur afin d'avoir un tableau des connectivités.
+En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répertorier dans un tableur afin d'avoir un tableau des connectivités. la fonction arêtes prend en argument un tableau contenant tous les triangles et renvoie les arêtes de ces triangles.
 
 
 
