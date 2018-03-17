@@ -1,0 +1,228 @@
+\documentclass[a4paper, oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
+\usepackage[a4paper]{geometry}
+\usepackage[french]{babel}
+
+
+
+
+
+\begin{document}
+\title{\textbf{Projet de mathématiques PP2}}
+	\begin{center}\begin{Huge}
+			\textbf{Génération de maillage 2D}
+		\end{Huge}
+\par\leavevmode\par
+		\par\leavevmode\par
+\begin{center}
+Jovanovic  Nikola 
+
+ Zeghidour Abel
+
+  Guillaume Large
+
+  Ben Tayeb  Morad 
+
+\end{center}
+\begin{center}
+Université Pierre et Marie Curie (Paris 6) 
+
+Licence 3 (S6) 
+
+UE 3M101 “Projet” 
+
+Année 2017–18 
+\end{center}
+\begin{center}
+Tuteur : Bertrand THIERRY \footnote{Chercheur au CNRS. }
+\end{center}
+\par\leavevmode\par
+\tableofcontents
+\begin{figure}
+\centering
+		\includegraphics[scale=0.15]{illustrations/1}
+\end{figure}
+	\end{center}
+
+
+
+
+
+\newpage
+\section{Introduction}
+Dans le cadre de l’UE 3M101 : Projet, nous avons choisi de travailler sur le sujet proposé par notre tuteur M. Bertrand THIERRY qui est le maillage 2D et la triangulation. 
+\newline
+\newline
+Lorsqu’il s’agit de résoudre numériquement des équations, le plus souvent aux dérivées partielles, le domaine dans lequel nous effectuons nos calculs a besoin d’être défini et représenté d’une manière discrète et donc être maillé. Ce maillage peut se construire à l’aide de différentes formes géométriques, la triangulation étant celle la plus utilisée car elle permet de mailler n’importe quelle domaine de calcul. Notre projet consiste donc à s’intéresser à la génération de maillages de domaines par méthode de triangulation. De plus, nous nous limitons aux géométries en 2D, qui se présentent déjà comme un défi. 
+\newline
+\newline
+
+Dans ce document nous allons dans un premier temps traiter de ce que sont le maillage et la triangulation et des différentes méthodes utilisées, en particulier celle de Delaunay puis nous allons exposer notre avancement à mi-parcours dans le projet et nos objectifs à venir.
+
+
+\section{Maillage 2D: Théorie de base jusqu’à la méthode          Delaunay}
+\subsection{Maillage - Définition }
+
+\underline{\itshape \bfseries Définition:} « Action de former un réseau, de disposer une grille qui recouvre un terrain ».\footnote{http://www.larousse.fr/dictionnaires/francais/maillage/48669} \newline
+
+Le maillage correspond en effet au recouvrement d’une surface, ou d’un domaine par un réseau de formes géométriques finies et simples. Ces formes géométriques peuvent être les mêmes (tous des triangles, tous des quadrilatères, etc.) ou alors une combinaison de plusieurs de ces formes.\newline
+
+ Mathématiquement on définit un maillage  $\ T_{h} $ d’un domaine   borné par $\ \Omega $: \newline
+
+\underline {\textbf {Définition:}} \newline
+(i)$\ \Omega = \cup K \in \ T_{h}(K). $  \newline
+(ii) L’intérieur de tout élément K de  $\ T_{h}$ est soit non vide, soit K non dégénéré. \newline
+(iii) L’intersection de l’intérieur de 2 éléments est vide. \newline
+
+
+\underline {\textbf {Remarque :}} h représente par convention la dimension caractéristique des éléments simples (pour des triangles il s’agit du diamètre maximal), plus h est petit et plus le maillage sera « plus proche » du domaine$\ \Omega $.
+\newline
+Le réseau peut être régulier, c’est-à-dire que les formes sont réparties de manière égale, ou conforme c’est-à-dire que l’intersection de 2 éléments est soit vide soit réduite à un sommet commun soit à la totalité d’une arête en commun. \newline
+La connectivité d’un élément (au sens de nœud, arête, cellule …) est la liste de ses voisins. Un maillage structuré est un maillage à connectivité fixe. Le maillage est alors défini par sa seule liste de nœuds qui restent donc adjacents aux mêmes éléments.
+
+\subsection{Triangulation - Définition }
+
+\underline {\textbf {Définition:}} « Division (d'un terrain) en triangles pour le mesurer »
+\newline
+\newline
+La triangulation désigne donc le type le maillage ou le domaine est subdivisé en triangles. Ce type de maillage est le plus répandu, car il ne pose pas de problème de possibilité a priori. En effet, le cas du maillage en formes quadrangulaires est encore un problème ouvert de recherche car pour certaines géométries le maillage en éléments quadrangulaires est indéfini. Ainsi pour un nuage de points dans l’espace, la triangulation de cet ensemble de points consiste à mailler avec des triangles ayant pour sommets les points de l’ensemble.
+\newline
+\newline
+\newline
+\underline {\textbf{Définition:}} Une triangulation ou un maillage triangulaire de $\Omega$  est un ensemble $\ T_{h}$ de triangles K vérifiant : \newline
+(i)$\ \Omega = \cup K \in \ T_{h}(K) $ \newline
+(ii)Tout triangle $\ K \in \ T_{h}(K) $  n’est pas dégénéré (i.e. : est d’intérieur non vide) et $\ K \subset \Omega$  \newline
+(iii)Pour $\ K , K' \in   \ T_{h} $ , alors $ K \cap  K'$  est soit vide, soit réduite à un sommet commun, soit à la totalité d’une arrête en commun. \newline
+(iv)Toute arête d’un triangle  $K \in \ T_{h}(K) $  est soit une arrête complète d’un autre triangle  $K' \in \ T_{h}(K) $, soit une partie de   $\partial   \Omega $.
+ \newline
+ \newline
+ \newline
+ \newline
+\begin{figure}[h]	
+	\centering
+\includegraphics{illustrations/2}
+\caption{Triangulation correcte (gauche), et incorrectes (les autres)}
+\end{figure}
+\newpage
+\subsection{Triangulation de Delaunay }
+
+Boris Nikolaïevitch Delaunay1, né le 15 mars 1890 à Saint-Pétersbourg et mort le 17 juillet 1980 à Moscou, était un mathématicien russe. Il a travaillé en algèbre moderne, en géométrie des nombres et en cristallographie mathématique. Il est le plus souvent reconnu pour son travail en 1934 sur les méthodes de triangulations  se basant sur le travail de Georges Voronoï et le diagramme de Voronoï. \footnote{B. Delaunay, Sur la sphère vide. A la mémoire de  Georges  Voronoï, Bulletin   de   l’Académie des   Sciences   de   l’URSS.   Classe   des   sciences mathématiques et na, 1934, Issue 6, 793–800.} La méthode Delaunay est caractérisée par son unicité et elle est décrite par :
+\newline
+\newline
+
+\begin{figure}[h]	
+	\centering
+\includegraphics{illustrations/3}
+\caption{Superposition d’un diagramme de Voronoï (en rouge), ou chaque cellule enferme un seul point, et forme l'ensemble des points du plan plus proches de ce point que de tous les autres ; et de la triangulation de Delaunay (en noir) qui est en fait le graph dual de celui de Voronoï.}
+\end{figure}
+
+
+
+\underline {\textbf {Définition:}} La triangulation d'un ensemble P de points du plan est une triangulation de Delaunay en 2D, notée DT(P) si aucun point de P n'est à l'intérieur du cercle circonscrit d'un des triangles de DT(P).
+\newline
+\newline
+Cette méthode permet de générer un maillage en triangles ou les angles de chaque triangle sont les plus petits possibles, ce qui permet un maillage sans élément « trop différent » des autres, sans pour autant être complètement régulier. Elle implique une très longue liste de propriétés mais la plus importante dans notre cas est celle du basculement. En effet, pour deux triangles donnés, la somme des angles  et  est inférieure ou égale à 180 si et seulement si ces triangles respectent la condition de Delaunay, cette condition constitue ainsi un test et/ou un moyen de construction pour la triangulation de Delaunay. 
+
+\newpage
+Par ailleurs, si deux triangles ne respectent pas la condition de Delaunay, remplacer une arête commune par l'autre arête commune génére ainsi deux triangles qui respectent la condition de Delaunay, on appelle cela un basculement. 
+
+\begin{figure}[h]	
+	\centering
+\includegraphics[scale=0.8]{illustrations/4}
+\caption{Triangulation de Delaunay avec les cercles circonscrits de chaque triangle.}
+\end{figure}
+
+
+
+
+
+
+
+\begin{figure}[h]	
+	\centering
+\includegraphics[scale=1]{illustrations/5}
+\caption{Schémas explicatifs de la méthode de basculement..}
+\end{figure}
+
+
+
+\newpage
+\section{   Projet : Avancement et Objectifs}
+\subsection{Maillage conforme et régulier du carré unitaire}
+
+Pour introduire le sujet du maillage, nous avons commencé par l’exemple de domaine le plus trivial possible : le carré unitaire. 
+\newline
+Il a s’agit ici d’écrire un programme en Python qui permet de mailler un carré unitaire en sous-carrés répartis de manière égale puis de subdiviser chaque sous-carré en triangles.
+De plus, nous devions faire en sorte de pouvoir choisir en combien de points nous allions diviser les côtés du carré (N et M). Enfin, le programme devait contenir des tableaux contentant une numérotation des coordonnées de chaque point ainsi qu’une numérotation de chaque triangle, suivi des sommets qui le constitue (connectivité). Ces numérotations devaient respecter la même règle : chaque triangle devait voir la numérotation de ses sommets croitre en parcourant les points dans le même sens.
+\newline
+Nous avons donc respecté ses contraintes en séparant les cas des triangles supérieurs et inférieurs qui chacun respectait son sens de « parcours ».   
+
+
+\begin{figure}[h]	
+	\centering
+\includegraphics[scale=0.9]{illustrations/6}
+\caption{Captures d’écran du return du programme pour deux cas différents (lorsque N=M, et lorsque N/= M).}
+\end{figure}
+
+
+
+
+
+
+
+\subsection{ Maillage d’un nuage de points }
+\subsubsection{Avancement }
+
+Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons donc dû basculer sur la méthode de triangulation de Delaunay. Pour l’instant, nous avons réussi a générer un carré qui englobe tous les points du nuage de points que l’on génère de manière aléatoire sur le plan. Ceci nous permettra ainsi de tester notre programme de triangulation.
+\newline
+En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répértoriés dans un tableurs afin d'avoir un tableau des connectivités.
+
+
+
+
+
+\begin{figure}[h]
+	\centering
+\includegraphics[scale=0.9]{illustrations/7}
+\caption{Captures d’écran du return du programme du nuage de points..}
+\end{figure}
+
+
+
+
+
+\subsubsection{Objectifs }
+
+
+Pour les semaines à venir, notre objectif commun est de réussir à obtenir dans un premier temps un algorithme permettant de générer un maillage de Delaunay qui respecte toutes les propriétés correspondantes. Il s’agit de la partie la plus difficile de notre projet, et elle demandera sans doute plusieurs semaines de travail. 
+\newline
+Par la suite, nous pourrons nous concentrer sur l’optimisation de notre code, en termes de temps et de ressources.
+\newline
+Enfin, si nous parvenons à cette étape, nous pourrions passer à l’étape du maillage d’une surface, en méthode de maillage contraint ce qui nous permettrait de « modéliser » certains objets, ou encore mailler une image quelconque.
+
+
+\begin{figure}	
+	\centering
+\includegraphics[scale=0.5]{illustrations/8}
+\caption{Maillage d’un visage humain en 3D}
+\end{figure}
+
+
+\newpage
+\section{ Conclusion  }
+
+Pour conclure, nous avons parcouru un bon nombre de sujets concernant le maillage et la triangulation qui nous ont permis de comprendre et d’apprendre certaines méthodes dont l’application dans le monde est immédiate, et ce malgré la restriction à la 2D.
+
+
+Le projet nous a également permis de nous replonger dans la programmation en Python avec des structures peu complexes (tableaux, boucles) mais avec des algorithmes mathématiques d’un autre niveau.
+
+
+
+
+     
+     
+\end{document}
