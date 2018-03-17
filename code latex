@@ -179,7 +179,7 @@ Nous avons donc respecté ces contraintes en séparant les cas des triangles sup
 
 Apres la première étape, le deuxième objectif était de réaliser un maillage de nuages de points quelconque. Pour réaliser ceci, nous avons d'abord écrit un code permettant de générer aléatoirement des points dans un carré prédéfini à l'avance (le code prend en argument deux réels qui permetront de créer ce carré). 
 \newline
-En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répértorier dans un tableur afin d'avoir un tableau des connectivités.
+En outre nous avons créer un programme afin de définir toutes les arêtes de notre triangulation et donc in fine de les répertorier dans un tableur afin d'avoir un tableau des connectivités.
 
 
 
